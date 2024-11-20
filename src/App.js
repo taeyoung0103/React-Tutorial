@@ -1,6 +1,27 @@
 import logo from "./logo.svg";
 import "./App.css";
 import Customer from "./components/Customer";
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper,
+} from "@mui/material";
+import { withStyles } from "@mui/styles";
+
+const styles = (theme) => ({
+  root: {
+    width: "100%",
+    marginTop: theme.spacing.unit * 3,
+    overflowX: "auto",
+  },
+  table: {
+    minWidth: 1080,
+  },
+});
 
 const customer = [
   {
@@ -31,21 +52,43 @@ const customer = [
 
 function App() {
   return (
-    <div>
-      {customer.map((c) => {
-        return (
-          <Customer
-            key={c.id}
-            id={c.id}
-            name={c.name}
-            image={c.image}
-            birthday={c.birthday}
-            gender={c.gender}
-            job={c.job}
-          />
-        );
-      })}
-    </div>
+    <Paper
+      sx={{
+        width: "100%",
+        marginTop: 3,
+        overflowX: "auto",
+      }}
+    >
+      <Table
+        sx={{
+          minWidth: 1080,
+        }}
+      >
+        <TableHead>
+          <TableRow>
+            <TableCell>번호</TableCell>
+            <TableCell>이미지</TableCell>
+            <TableCell>이름</TableCell>
+            <TableCell>생년월일</TableCell>
+            <TableCell>성별</TableCell>
+            <TableCell>직업</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {customer.map((c) => (
+            <Customer
+              key={c.id}
+              id={c.id}
+              name={c.name}
+              image={c.image}
+              birthday={c.birthday}
+              gender={c.gender}
+              job={c.job}
+            />
+          ))}
+        </TableBody>
+      </Table>
+    </Paper>
   );
 }
 

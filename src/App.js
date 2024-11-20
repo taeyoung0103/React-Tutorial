@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
 import Customer from "./components/Customer";
 import {
@@ -10,18 +10,6 @@ import {
   TableCell,
   Paper,
 } from "@mui/material";
-import { withStyles } from "@mui/styles";
-
-const styles = (theme) => ({
-  root: {
-    width: "100%",
-    marginTop: theme.spacing.unit * 3,
-    overflowX: "auto",
-  },
-  table: {
-    minWidth: 1080,
-  },
-});
 
 const customer = [
   {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Customer from "./components/Customer";
 import {
@@ -11,34 +11,24 @@ import {
   Paper,
 } from "@mui/material";
 
-const customer = [
-  {
-    id: "1",
-    image: "https://placeimg.com/64/64/1",
-    name: "테스터",
-    birthday: "990101",
-    gender: "남자",
-    job: "대학원생",
-  },
-  {
-    id: "2",
-    image: "https://placeimg.com/64/64/2",
-    name: "이시험",
-    birthday: "980202",
-    gender: "여자",
-    job: "대학생",
-  },
-  {
-    id: "3",
-    image: "https://placeimg.com/64/64/3",
-    name: "최결과",
-    birthday: "970303",
-    gender: "남자",
-    job: "회사원",
-  },
-];
-
 function App() {
+  // state를 useState로 선언
+  const [customer, setCustomer] = useState([]);
+
+  // componentDidMount 대신 useEffect 사용
+  useEffect(() => {
+    callApi()
+      .then((res) => setCustomer(res))
+      .catch((err) => console.log(err));
+  }, []); // 빈 배열은 컴포넌트가 처음 렌더링될 때 한 번만 실행됨
+
+  // 비동기 API 호출 함수
+  const callApi = async () => {
+    const response = await fetch("/api/customer");
+    const body = await response.json();
+    return body;
+  };
+
   return (
     <Paper
       sx={{
@@ -63,17 +53,25 @@ function App() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {customer.map((c) => (
-            <Customer
-              key={c.id}
-              id={c.id}
-              name={c.name}
-              image={c.image}
-              birthday={c.birthday}
-              gender={c.gender}
-              job={c.job}
-            />
-          ))}
+          {customer.length > 0 ? (
+            customer.map((c) => (
+              <Customer
+                key={c.id}
+                id={c.id}
+                name={c.name}
+                image={c.image}
+                birthday={c.birthday}
+                gender={c.gender}
+                job={c.job}
+              />
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={6} align="center">
+                Loading...
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </Paper>
